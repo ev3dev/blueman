@@ -1,0 +1,40 @@
+Description: Fix crash on systems without bluetooth
+Author: Sean Davis <bluesabre@ubuntu.com>
+Bug: https://github.com/blueman-project/blueman/issues/488
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/blueman/+bug/1533206
+Last-Update: 2016-03-30
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/blueman/bluez/BlueZInterface.py
++++ b/blueman/bluez/BlueZInterface.py
+@@ -13,16 +13,21 @@
+     @staticmethod
+     def get_interface_version():
+         if not BlueZInterface.interface_version:
+-            obj = dbus.SystemBus().get_object('org.bluez', '/')
+-            introspection = dbus.Interface(obj, 'org.freedesktop.DBus.Introspectable').Introspect()
+-            if 'org.freedesktop.DBus.ObjectManager' in introspection:
+-                dprint('Detected BlueZ 5')
++            try:
++                obj = dbus.SystemBus().get_object('org.bluez', '/')
++                introspection = dbus.Interface(obj, 'org.freedesktop.DBus.Introspectable').Introspect()
++                if 'org.freedesktop.DBus.ObjectManager' in introspection:
++                    dprint('Detected BlueZ 5')
++                    BlueZInterface.interface_version = [5]
++                elif 'org.bluez.Manager' in introspection:
++                    dprint('Detected BlueZ 4')
++                    BlueZInterface.interface_version = [4]
++                else:
++                    raise Exception('Could not find any compatible version of BlueZ')
++            except dbus.exceptions.DBusException:
++                # https://github.com/blueman-project/blueman/issues/488
+                 BlueZInterface.interface_version = [5]
+-            elif 'org.bluez.Manager' in introspection:
+-                dprint('Detected BlueZ 4')
+-                BlueZInterface.interface_version = [4]
+-            else:
+-                raise Exception('Could not find any compatible version of BlueZ')
++                dprint('Fallback BlueZ 5')
+ 
+         return BlueZInterface.interface_version
+ 

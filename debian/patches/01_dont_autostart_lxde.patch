@@ -1,0 +1,10 @@
+Description: The applet is a bit too heavy for the default Lubuntu install
+Bug: https://bugs.launchpad.net/bugs/958890
+Author: Julien Lavergne <gilir@ubuntu.com>
+--- a/data/blueman.desktop.in
++++ b/data/blueman.desktop.in
+@@ -6,3 +6,4 @@
+ Terminal=false
+ Type=Application
+ Categories=
++NotShowIn=LXDE
