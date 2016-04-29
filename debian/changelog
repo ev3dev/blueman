@@ -1,3 +1,9 @@
+blueman (2.0.4-1ubuntu3) UNRELEASED; urgency=medium
+
+  * 
+
+ -- David Lechner <david@lechnology.com>  Thu, 28 Apr 2016 20:59:55 -0500
+
 blueman (2.0.4-1ubuntu2) xenial; urgency=medium
 
   * debian/patches/02_lp1533206.patch

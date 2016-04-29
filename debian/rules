@@ -10,16 +10,16 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/gnome.mk
 include /usr/share/cdbs/1/rules/autoreconf.mk
 
-DEB_CONFIGURE_EXTRA_FLAGS := --disable-runtime-deps-check --with-dhcp-config=/etc/dhcp/dhcpd.conf
+DEB_CONFIGURE_EXTRA_FLAGS := --with-systemdunitdir=/lib/systemd --enable-polkit \
+	--disable-runtime-deps-check --with-dhcp-config=/etc/dhcp/dhcpd.conf
 
 common-install-arch::
 	rm -f $(CURDIR)/debian/blueman/usr/lib/nautilus-sendto/plugins/libnstblueman.la
 	rm -f $(CURDIR)/debian/blueman/usr/share/doc/blueman/COPYING
 
-binary-install/blueman::
-	dh_python3 --shebang=/usr/bin/python3
-
 install/blueman::
 	rm -f $(CURDIR)/debian/blueman/usr/lib/python*/*-packages/_blueman.la
 	rm -f $(CURDIR)/debian/blueman/usr/lib/python*/*-packages/_blueman.a
 
+binary-install/blueman::
+	dh_python3 -pblueman

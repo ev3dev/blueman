@@ -1,14 +1,15 @@
 Source: blueman
 Section: x11
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Maintainer: David Lechner <david@lechnology.com>
 XSBC-Original-Maintainer: Christopher Schramm <debian@shakaweb.org>
 Homepage: https://github.com/blueman-project/blueman
 Standards-Version: 3.9.7
 X-Python3-Version: >= 3.2
 Build-Depends: debhelper (>= 7), autotools-dev, cdbs, libglib2.0-dev, libtool,
                libbluetooth-dev (>= 4.0), intltool, python3-dev (>= 3.2),
-               cython, python3-dbus, dh-autoreconf, python-gi-dev
+               cython, python3-dbus, dh-autoreconf, python-gi-dev,
+               libpolkit-agent-1-dev
 
 Package: blueman
 Architecture: any
